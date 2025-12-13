@@ -7,6 +7,7 @@ The analyses are based on single-cell RNA-seq data from the **Allen Brain Atlas 
 
 ## 📂 Repository Structure
 
+```text
 mouse-brain-receptor-uniformity/
 │
 ├── src/ # Python analysis scripts
@@ -36,9 +37,9 @@ This project performs two complementary analyses using receptor-related genes fr
 For each macro-region:
 
 1. Compute expressing-cell fractions  
-   \[
+   $$
    \text{fraction} = \frac{\#(expression > 0)}{\text{total cells in region}}
-   \]
+   $$
 2. Convert fractions to percentages  
 3. Normalize each region row so that receptor subtypes sum to 100%  
 4. Visualize the receptor-composition matrix as a heatmap
@@ -57,9 +58,9 @@ Outputs:
 For each receptor gene:
 
 Logistic model:
-\[
+$$
 \logit P(y_{ij}=1) = \beta_0 + \sum_k \beta_k I(\text{region}=R_k)
-\]
+$$
 where:
 
 - \( y_{ij}=1 \) if gene expression > 0  
