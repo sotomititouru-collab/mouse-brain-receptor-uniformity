@@ -1,0 +1,57 @@
+=== WMB receptor uniformity analysis (FINAL PIPELINE + BOOTSTRAP) ===
+Timestamp: 2026-01-11T22:51:40.982120
+Bootstrap: N=1000, seed=42, delta=1e-06
+Found 13 h5ad files
+Genes used (n=26): ['Gabra1', 'Gabra2', 'Gabra3', 'Gabrb1', 'Gabrb2', 'Gabrg2', 'Htr1a', 'Htr2a', 'Htr2c', 'Htr7', 'Drd1', 'Drd2', 'Drd3', 'Drd4', 'Oprk1', 'Oprm1', 'Oprd1', 'Grin1', 'Grin2a', 'Grin2b', 'Gria1', 'Gria2', 'Adra2a', 'Adra2c', 'Chrna4', 'Chrnb2']
+Processing WMB-10Xv3-CB-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-CB-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-CTXsp-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-CTXsp-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-HPF-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-HPF-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-HY-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-HY-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-Isocortex-1-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-Isocortex-1-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-Isocortex-2-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-Isocortex-2-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-MB-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-MB-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-MY-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-MY-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-OLF-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-OLF-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-P-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-P-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-PAL-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-PAL-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-STR-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-STR-log2.h5ad; using single-donor fallback.
+Processing WMB-10Xv3-TH-log2.h5ad
+WARNING: No donor column found in WMB-10Xv3-TH-log2.h5ad; using single-donor fallback.
+Detected donor count: 1
+Region key used: anatomical_division_label
+Donor key used: _single_donor_fallback_
+Starting hierarchical bootstrap...
+  bootstrap 50/1000
+  bootstrap 100/1000
+  bootstrap 150/1000
+  bootstrap 200/1000
+  bootstrap 250/1000
+  bootstrap 300/1000
+  bootstrap 350/1000
+  bootstrap 400/1000
+  bootstrap 450/1000
+  bootstrap 500/1000
+  bootstrap 550/1000
+  bootstrap 600/1000
+  bootstrap 650/1000
+  bootstrap 700/1000
+  bootstrap 750/1000
+  bootstrap 800/1000
+  bootstrap 850/1000
+  bootstrap 900/1000
+  bootstrap 950/1000
+  bootstrap 1000/1000
+=== Analysis completed successfully ===
+Outputs written to: C:\Users\abeke\OneDrive\Desktop\デスクトップ\論文\1_Processing\WMB_receptor_uniformity_results

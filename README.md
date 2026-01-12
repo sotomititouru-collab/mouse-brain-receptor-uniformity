@@ -1,146 +1,163 @@
 # Mouse Brain Receptor Uniformity Analysis
 
-This repository contains analysis scripts, output CSV files, and visualization figures used in a study investigating neurotransmitter receptor composition across mouse brain macro-regions.  
-The analyses are based on single-cell RNA-seq data from the **Allen Brain Atlas (WMB-10Xv3, *-log2.h5ad)**.
+This repository contains **all code, processed data tables, and figure-generation outputs** used in the manuscript:
+
+> **Cross-regional uniformity of neurotransmitter receptor transcript detection across the adult mouse brain**
+
+The analysis is based on publicly available single-cell RNA-seq data from the **Allen Institute Adult Mouse Brain Cell Atlas (Cell Census v2023; WMB‑10Xv3)**.
 
 ---
 
-## 📂 Repository Structure
+## 📂 Repository Structure (Canonical)
 
-```text
+```
 mouse-brain-receptor-uniformity/
 │
-├── src/ # Python analysis scripts
-│ └── mouse_brain_receptor_uniformity_analysis.py
+├── src/                      # Analysis code
+│   └── Mouse_brain_receptor_uniformity_pipeline.py
 │
-├── data/ # Output CSV files
-│ ├── region_receptor_subtype_ratio.csv
-│ ├── logistic_region_coefficients_CB_removed_isocortex_baseline.csv
-│ └── region_by_gene_expression_percentage.csv
+├── data/                     # All non-figure outputs (CSV / JSON / TXT)
+│   ├── region_detection_fractions.csv
+│   ├── region_cell_counts_primary.csv
+│   ├── region_compositions.csv
+│   ├── uniformity_U75_U95.csv
+│   ├── aitchison_distance_matrix.csv
+│   ├── bootstrap_summary.csv
+│   ├── bootstrap_distributions.csv
+│   ├── run_metadata.json
+│   └── analysis_log.txt
 │
-├── figures/ # Visualization figures (PNG)
-│ ├── Figure1_receptor_heatmap.png
-│ └── Figure2_logit_coeff_boxplot_CB_removed.png
+├── figures/                  # Publication-ready figures (PNG only)
+│   ├── Figure1_heatmap.png
+│   ├── Figure2A_aitchison_heatmap.png
+│   └── Figure2B_aitchison_hist.png
 │
-├── requirements.txt # Python dependencies
-├── LICENSE # MIT license
-└── README.md # Documentation
+├── requirements.txt          # Python dependencies
+├── LICENSE                   # MIT License
+└── README.md                 # This document
+```
 
+**Rule enforced**  
+- `figures/` → **PNG files only** (exactly those referenced as figures in the manuscript)  
+- `data/` → **everything else** (CSV, JSON, TXT, logs, matrices, bootstrap outputs)
 
----
-
-## 🧠 Overview
-
-This project performs two complementary analyses using receptor-related genes from the mouse whole-brain single-cell atlas:
-
-### **(A) Region-level expressing-cell fraction analysis**
-For each macro-region:
-
-1. Compute expressing-cell fractions  
-   $$
-   \text{fraction} = \frac{\#(expression > 0)}{\text{total cells in region}}
-   $$
-2. Convert fractions to percentages  
-3. Normalize each region row so that receptor subtypes sum to 100%  
-4. Visualize the receptor-composition matrix as a heatmap
-
-Outputs:
-
-- `region_by_gene_expression_percentage.csv`  
-- `region_receptor_subtype_ratio.csv`  
-- `Figure1_receptor_heatmap.png`
-Additional reference data:
-
-- `region_cell_counts.csv`  
-  Cell counts per brain region used to verify the total number of analyzed cells (~2.3 million), as reported in the Abstract.
+This structure matches:
+- the *Code and Data Availability* section in the manuscript
+- the actual outputs produced by the pipeline
+- arXiv reproducibility expectations
 
 ---
 
-### **(B) Logistic regression across brain regions**  
-(Excluding cerebellum; Isocortex used as baseline)
+## 🧠 Overview of the Analysis
 
-For each receptor gene:
+The pipeline quantifies **cross-regional similarity (uniformity)** of neurotransmitter receptor–related transcript detection across **11 non‑cerebellar brain macro‑regions**.
 
-Logistic model:
-$$
-\logit P(y_{ij}=1) = \beta_0 + \sum_k \beta_k I(\text{region}=R_k)
-$$
-where:
+Two complementary metrics are used:
 
-- \( y_{ij}=1 \) if gene expression > 0  
-- `"cb"` (cerebellum) is excluded  
-- `"isocortex"` = baseline  
-- One coefficient per non-baseline region
+1. **Gene-wise absolute percentage-point differences** (U75 / U95)
+2. **Compositional distances** in CLR space (Aitchison distance)
 
-Outputs:
-
-- `logistic_region_coefficients_CB_removed_isocortex_baseline.csv`  
-- `Figure2_logit_coeff_boxplot_CB_removed.png`
+Uncertainty is quantified using a **hierarchical bootstrap** (donor → cell).
 
 ---
 
-## 📊 Data Source
+## 📊 Primary Outputs
 
-The analysis requires the following dataset:
+### Region-level detection and composition
 
-- **Allen Brain Institute – Mouse Whole-Brain (WMB-10Xv3) single-cell RNA-seq dataset**  
-  (`*-log2.h5ad` files)
+| File | Description |
+|----|----|
+| `region_detection_fractions.csv` | Fraction of cells with detected expression (X > 0) per region × gene |
+| `region_cell_counts_primary.csv` | Total number of cells per macro-region |
+| `region_compositions.csv` | Row-normalized receptor subtype compositions (sum = 1 per region) |
 
-Due to licensing restrictions, raw h5ad files cannot be included in this repository.
+### Uniformity metrics
+
+| File | Description |
+|----|----|
+| `uniformity_U75_U95.csv` | Gene-wise upper-quantile (75%, 95%) absolute differences (percentage points) |
+| `aitchison_distance_matrix.csv` | 11×11 matrix of pairwise Aitchison distances |
 
 ---
 
-## ▶️ How to Run the Analysis
+## 📈 Figures (Reproducible)
 
-1. Place Allen Brain Atlas `*-log2.h5ad` files in a directory.
-2. Edit the script configuration:
+| Figure | File |
+|----|----|
+| Figure 1 | `Figure1_heatmap.png` — receptor subtype compositions across regions |
+| Figure 2A | `Figure2A_aitchison_heatmap.png` — cross-regional Aitchison distances |
+| Figure 2B | `Figure2B_aitchison_hist.png` — distribution of pairwise distances |
+
+All figures are generated directly by the pipeline with fixed parameters.
+
+---
+
+## 🔁 Hierarchical Bootstrap Outputs
+
+Bootstrap configuration (default):
+- **1000 replicates**
+- Sampling hierarchy: **donor → cell**
+- Cell resampling implemented via **Binomial(n, p̂)** equivalence for Bernoulli detection
+
+| File | Description |
+|----|----|
+| `bootstrap_summary.csv` | Point estimates with 95% confidence intervals |
+| `bootstrap_distributions.csv` | Replicate-level bootstrap values |
+
+---
+
+## ▶️ How to Run
+
+1. Prepare Allen Brain Atlas `*-log2.h5ad` files locally
+2. Edit the input path in the script:
 
 ```python
-H5AD_DIR = Path(r"your/path/to/h5ad_files")
+H5AD_DIR = Path("/path/to/WMB-10Xv3/log2_h5ad")
+```
 
-3.Run the analysis script
-Execute the following command in your terminal or PowerShell:
+3. Install dependencies:
 
-python src/mouse_brain_receptor_uniformity_analysis.py
-
-4.Check the output results
-The script will automatically generate CSV and PNG files under:
-./WMB_receptor_uniformity_results/
-You may manually move the CSV/PNG files into /data/ and /figures/ for publication.
-
-📦 Dependencies
-Install required libraries via:
-
-bash
+```bash
 pip install -r requirements.txt
-Dependencies:
+```
 
-numpy
+4. Run the pipeline:
 
-pandas
+```bash
+python src/Mouse_brain_receptor_uniformity_pipeline.py
+```
 
-scanpy
+All outputs will be written to:
 
-statsmodels
+```
+WMB_receptor_uniformity_results/
+```
 
-matplotlib
+You may then move the generated files into `data/` and `figures/` for archiving or publication.
 
-seaborn
+---
 
-🔁 Reproducibility Notes
-The script automatically detects region labels from the h5ad metadata.
+## 🧾 Reproducibility Notes
 
-Output directory is created reproducibly under the current working directory.
+- Detection rule: **log2(expression) > 0**, equivalent to **UMI > 0** for WMB‑10Xv3 data
+- CLR transform uses a fixed pseudo‑count: δ = 1e‑6
+- Random seed is fixed and recorded in `run_metadata.json`
+- Software versions and parameters are logged in `analysis_log.txt`
 
-Logistic regression uses Isocortex as a fixed baseline across all genes.
+---
 
-📄 License
-This project is distributed under the MIT License, allowing reuse with attribution.
+## 📄 License
 
-📚 Citation
-If you use this repository in academic work, please cite:
+MIT License — free reuse with attribution.
 
-Mouse Brain Receptor Uniformity Analysis.
-GitHub: https://github.com/yourname/mouse-brain-receptor-uniformity
+---
 
-(Replace with Zenodo DOI after deposit.)
+## 📚 Citation
+
+If you use this code or data, please cite:
+
+> Mouse Brain Receptor Uniformity Analysis.  
+> GitHub repository: https://github.com/sotomitiouru-collab/mouse-brain-receptor-uniformity
+
+(Replace with DOI after Zenodo deposition.)
+
