@@ -153,6 +153,7 @@ WMB_receptor_uniformity_results/
 
 In this repository, the files corresponding to the manuscript are already organized
 under `data/` and `figures/` as described above.
+
 ---
 
 ## 🧾 Reproducibility Notes
