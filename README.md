@@ -151,7 +151,8 @@ All outputs will be written to:
 WMB_receptor_uniformity_results/
 ```
 
-You may then move the generated files into `data/` and `figures/` for archiving or publication.
+In this repository, the files corresponding to the manuscript are already organized
+under `data/` and `figures/` as described above.
 
 ---
 
