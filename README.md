@@ -12,6 +12,11 @@ The analysis is based on publicly available single-cell RNA-seq data from the
 
 ## Overview
 
+**Cross-regional similarity is evaluated through a two-stage framework, comprising an
+absolute-scale assessment based on upper-quantile summaries of percentage-point differences,
+followed by a relative-scale evaluation of compositional similarity in log-ratio space using
+Aitchison distances.**
+
 **Cross-regional uniformity of neurotransmitter receptor transcript detection**  
 *A quantitative framework for cross-regional uniformity*
 
