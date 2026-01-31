@@ -222,5 +222,5 @@ If you use this code or data, please cite the Zenodo archive (canonical referenc
 doi:10.5281/zenodo.18268080
 
 GitHub repository:
-https://github.com/sotomitiouru-collab/mouse-brain-receptor-uniformity
+https://github.com/kentaro-abe-collab/mouse-brain-receptor-uniformity
 
